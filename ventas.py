@@ -220,7 +220,7 @@ def borrar_registro():
 if __name__ == "__main__":
     ventana_ventas = tk.Tk()
     ventana_ventas.title("Ventas")
-    ventana_ventas.geometry("850x550")
+    ventana_ventas.geometry("850x630")
 
     # Crear tabla
     tree = ttk.Treeview(ventana_ventas, columns=("Producto", "Cantidad", "Descuento", "Total"), show="headings")
