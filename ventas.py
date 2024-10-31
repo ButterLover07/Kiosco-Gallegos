@@ -43,6 +43,13 @@ def agregar_producto(entry_producto, entry_cantidad, entry_descuento):
             cantidad = int(cantidad)
             descuento = int(descuento)
 
+            # Verificar si el producto ya está en la tabla
+            for child in tree.get_children():
+                item = tree.item(child)['values']
+                if item[0] == producto:
+                    messagebox.showwarning("Advertencia", f"El producto '{producto}' ya está en la lista de ventas.")
+                    return
+                
             # Verificar si hay suficiente stock
             if cantidad > stock_disponible:
                 messagebox.showwarning("Stock Insuficiente", f"Solo hay {stock_disponible} unidades disponibles de {producto}.")
