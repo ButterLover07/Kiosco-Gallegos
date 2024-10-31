@@ -25,21 +25,13 @@ def obtener_nombres_productos():
 def conectar():
     return sqlite3.connect('kiosco.db')
 
-# Función para actualizar el stock de un producto después de una venta
-def actualizar_stock_producto(nombre_producto, cantidad_vendida):
-    conn = conectar()
-    cursor = conn.cursor()
-    # Obtener el stock actual
-    cursor.execute("SELECT stock FROM productos WHERE nombre = ?", (nombre_producto,))
-    resultado = cursor.fetchone()
-    if resultado:
-        stock_actual = resultado[0]
-        nuevo_stock = stock_actual - cantidad_vendida
-        if nuevo_stock < 0:
-            nuevo_stock = 0  # Evitar stock negativo
-        cursor.execute("UPDATE productos SET stock = ? WHERE nombre = ?", (nuevo_stock, nombre_producto))
-        conn.commit()
-    conn.close()
+# Nueva función para actualizar el stock de un producto específico
+def actualizar_stock_producto(producto, nuevo_stock):
+    conexion = conectar()
+    cursor = conexion.cursor()
+    cursor.execute("UPDATE productos SET stock = ? WHERE nombre = ?", (nuevo_stock, producto))
+    conexion.commit()
+    conexion.close()
 
 # Funciones para manejar ventas en la base de datos
 def agregar_venta(producto_id, cantidad, descuento, total):

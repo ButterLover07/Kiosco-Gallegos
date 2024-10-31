@@ -49,7 +49,7 @@ def agregar_producto(entry_producto, entry_cantidad, entry_descuento):
                 if item[0] == producto:
                     messagebox.showwarning("Advertencia", f"El producto '{producto}' ya está en la lista de ventas.")
                     return
-                
+                    
             # Verificar si hay suficiente stock
             if cantidad > stock_disponible:
                 messagebox.showwarning("Stock Insuficiente", f"Solo hay {stock_disponible} unidades disponibles de {producto}.")
@@ -63,6 +63,10 @@ def agregar_producto(entry_producto, entry_cantidad, entry_descuento):
             # Insertar en la tabla
             tree.insert('', 'end', values=(producto, cantidad, f"{descuento}%", f"${precio_total:.2f}"))
 
+            # Restar y actualizar el stock en la base de datos
+            nuevo_stock = stock_disponible - cantidad
+            db.actualizar_stock_producto(producto, nuevo_stock)
+            
             # Limpiar entradas
             entry_producto.set("")
             entry_cantidad.delete(0, tk.END)
